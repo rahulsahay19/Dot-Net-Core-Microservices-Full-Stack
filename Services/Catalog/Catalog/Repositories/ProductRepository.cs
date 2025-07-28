@@ -115,7 +115,7 @@ namespace Catalog.Repositories
             return await _products
                 .Find(filter)
                 .Sort(sortDefn)
-                .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageSize - 1))
+                .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
                 .Limit(catalogSpecParams.PageSize)
                 .ToListAsync();
         }
