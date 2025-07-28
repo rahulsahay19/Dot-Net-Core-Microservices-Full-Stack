@@ -21,6 +21,7 @@ namespace Catalog.Mappers
                 Price = product.Price,
                 Brand = product.Brand,
                 Type = product.Type,
+                CreatedDate = product.CreatedDate
             };
         }
 
@@ -39,7 +40,7 @@ namespace Catalog.Mappers
             new Product
             {
                 Name = command.Name,
-                Summamry = command.Summamry,
+                Summamry = command.Summary,
                 Description = command.Description,
                 ImageFile = command.ImageFile,
                 Brand = brand,

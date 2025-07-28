@@ -21,8 +21,8 @@ namespace Catalog.Handlers
                 throw new KeyNotFoundException($"Product with Id {request.Id} not found.");
             }
             //Step 1: Fetch Brand and Type
-            var brand = await _productRepository.GetBrandByIdAsync(request.Id);
-            var type = await _productRepository.GetTypeByIdAsync(request.Id);
+            var brand = await _productRepository.GetBrandByIdAsync(request.BrandId);
+            var type = await _productRepository.GetTypeByIdAsync(request.TypeId);
             if (brand == null || type == null)
             {
                 throw new ApplicationException("Invalid Brand or Type specified");
