@@ -10,7 +10,7 @@ namespace Discount.Extensions
             {
                 var services = scope.ServiceProvider;
                 var config = services.GetRequiredService<IConfiguration>();
-                var logger = services.GetRequiredService<ILogger>();
+                var logger = services.GetRequiredService<ILogger<TContext>>();
                 try
                 {
                     logger.LogInformation("Discount Db Migration Started.");
