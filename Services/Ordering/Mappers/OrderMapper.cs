@@ -1,4 +1,5 @@
-﻿using Ordering.Commands;
+﻿using EventBus.Messages.Events;
+using Ordering.Commands;
 using Ordering.DTOs;
 using Ordering.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -91,6 +92,26 @@ namespace Ordering.Mappers
             orderToUpdate.Expiration = request.Expiration;
             orderToUpdate.Cvv = request.Cvv;
             orderToUpdate.PaymentMethod = request.PaymentMethod;
+        }
+        public static CheckoutOrderCommand ToCheckoutOrderCommand(this BasketCheckoutEvent message)
+        {
+            return new CheckoutOrderCommand
+            { 
+                UserName = message.UserName!,
+                TotalPrice = message.TotalPrice ?? 0,
+                FirstName = message.FirstName!,
+                LastName = message.LastName!,
+                EmailAddress = message.EmailAddress!,
+                AddressLine = message.AddressLine!,
+                Country = message.Country!,
+                State = message.State!,
+                ZipCode = message.ZipCode!,
+                CardName = message.CardName!,
+                CardNumber = message.CardNumber!,
+                Expiration = message.Expiration!,
+                Cvv = message.Cvv!,
+                PaymentMethod = message.PaymentMethod ?? 0
+            };
         }
     }
 }
