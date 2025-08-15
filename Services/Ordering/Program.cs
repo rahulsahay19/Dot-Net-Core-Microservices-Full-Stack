@@ -1,6 +1,7 @@
 using EventBus.Messages.Common;
 using MassTransit;
 using Ordering.Data;
+using Ordering.Dispatcher;
 using Ordering.EventBusConsumer;
 using Ordering.Extensions;
 
@@ -20,6 +21,8 @@ builder.Services.AddApplicationServices();
 //Infra services
 builder.Services.AddInfraServices(builder.Configuration);
 
+//Register Outbox Message Dispatcher
+builder.Services.AddHostedService<OutboxMessageDispatcher>();
 //Mass Transit
 builder.Services.AddMassTransit(config =>
 {

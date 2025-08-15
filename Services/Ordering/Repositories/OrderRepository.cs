@@ -7,7 +7,7 @@ namespace Ordering.Repositories
     public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
         public OrderRepository(OrderContext dbContext): base(dbContext) { }
-        
+
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
         {
             var orderList = await _dbContext.Orders
@@ -15,6 +15,12 @@ namespace Ordering.Repositories
                 .Where(o=>o.UserName == userName)
                 .ToListAsync();
             return orderList;
+        }
+
+        public async Task AddOutboxMessageAsync(OutboxMessage outboxMessage)
+        {
+            await _dbContext.OutboxMessages.AddAsync(outboxMessage);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
