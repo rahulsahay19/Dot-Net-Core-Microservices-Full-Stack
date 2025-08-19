@@ -19,7 +19,7 @@ namespace Ordering.EventBusConsumer
             var order = await _orderRepository.GetByIdAsync(context.Message.OrderId);
             if (order == null) 
             {
-                _logger.LogWarning("Order not found for Id: {OrderId}", context.Message.OrderId);
+                _logger.LogWarning("Order not found for Id: {OrderId} and {CorrelationId}", context.Message.OrderId, context.Message.CorrelationId);
                 return;
             }
             order.Status = Entities.OrderStatus.Paid;

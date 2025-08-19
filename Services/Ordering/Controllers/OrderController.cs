@@ -33,26 +33,35 @@ namespace Ordering.Controllers
         [HttpPost(Name = "CheckoutOrder")]
         public async Task<ActionResult<int>> CheckoutOrder([FromBody] CreateOrderDto dto)
         {
+            //Extract Correlation id x-correlation-id
+            var correlationId = HttpContext.Request.Headers["x-correlation-id"].FirstOrDefault() ?? Guid.NewGuid().ToString();
             var command = dto.ToCommand();
+            command.CorrelationId = Guid.Parse(correlationId);
+
             var result = await _mediator.Send(command);
-            _logger.LogInformation($"Order created with Id: {result}");
+            _logger.LogInformation($"Order created with Id: {result}, CorrelationId: {correlationId}");
             return Ok(result);
         }
 
         [HttpPut(Name = "UpdateOrder")]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderDto dto)
         {
+            //Extract Correlation id x-correlation-id
+            var correlationId = HttpContext.Request.Headers["x-correlation-id"].FirstOrDefault() ?? Guid.NewGuid().ToString();
             var command = dto.ToCommand();
+            command.CorrelationId = Guid.Parse(correlationId);
             await _mediator.Send(command);
-            _logger.LogInformation($"Order updated with Id: {dto.Id}");
+            _logger.LogInformation($"Order updated with Id: {dto.Id}, CorrelationId: {correlationId}");
             return NoContent();
         }
         [HttpDelete("{id}", Name = "DeleteOrder")]
         public async Task<IActionResult> DeleteOrder([FromRoute] int id)
-        { 
-            var command = new DeleteOrderCommand { Id = id };
+        {
+            //Extract Correlation id x-correlation-id
+            var correlationId = HttpContext.Request.Headers["x-correlation-id"].FirstOrDefault() ?? Guid.NewGuid().ToString();
+            var command = new DeleteOrderCommand { Id = id , CorrelationId =Guid.Parse(correlationId)};
             await _mediator.Send(command);
-            _logger.LogInformation($"Order deleted with Id: {id}");
+            _logger.LogInformation($"Order deleted with Id: {id}, CorrelationId: {correlationId}");
             return NoContent();
         }
     }

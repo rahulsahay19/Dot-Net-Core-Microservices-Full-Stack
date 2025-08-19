@@ -1,11 +1,15 @@
+using Common.Logging;
 using Discount.Extensions;
 using Discount.Handlers;
 using Discount.Repositories;
 using Discount.Services;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Serilog configuration
+builder.Host.UseSerilog(Logging.ConfigureLogger);
 // Add services to the container.
 
 //Mediatr

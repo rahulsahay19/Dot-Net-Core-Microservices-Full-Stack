@@ -10,7 +10,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllProducts",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{id}",
@@ -22,7 +25,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/productName/{productName}",
@@ -34,7 +40,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/productName/{productName}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog",
@@ -46,7 +55,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{id}",
@@ -58,7 +70,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/{id}",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetAllBrands",
@@ -70,7 +85,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllBrands",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/GetAllTypes",
@@ -82,7 +100,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetAllTypes",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/brand/{brand}",
@@ -94,7 +115,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/brand/{brand}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
@@ -106,7 +130,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Basket/{userName}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket",
@@ -118,7 +145,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Basket",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/Checkout",
@@ -131,6 +161,9 @@
       ],
       "UpstreamPathTemplate": "/Basket/Checkout",
       "UpstreamHttpMethod": [ "POST" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -145,7 +178,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Order",
@@ -157,7 +193,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Order",
-      "UpstreamHttpMethod": [ "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "POST", "PUT" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Order/{id}",
@@ -169,7 +208,10 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/{id}",
-      "UpstreamHttpMethod": [ "DELETE" ]
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
@@ -181,7 +223,10 @@
         }
       ],
       "UpstreamPathTemplate": "/identity/api/auth/{everything}",
-      "UpstreamHttpMethod": [ "POST", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "AddHeadersToRequest": {
+        "x-correlation-id": "{X-Correlation-Id}"
+      }
     }
 
 

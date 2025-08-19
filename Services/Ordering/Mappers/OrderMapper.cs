@@ -1,4 +1,5 @@
 ﻿using EventBus.Messages.Events;
+using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Newtonsoft.Json;
 using Ordering.Commands;
@@ -117,11 +118,11 @@ namespace Ordering.Mappers
             };
         }
 
-        public static OutboxMessage ToOutboxMessage(Order order)
+        public static OutboxMessage ToOutboxMessage(Order order, Guid correlationId)
         {
             return new OutboxMessage
             {
-                CorrelationId = Guid.NewGuid().ToString(),
+                CorrelationId = correlationId.ToString(),
                 Type = OutboxMessageTypes.OrderCreated,
                 OccurredOn = DateTime.UtcNow,
                 Content = JsonConvert.SerializeObject(new
@@ -142,6 +143,35 @@ namespace Ordering.Mappers
                     order.Cvv,
                     order.PaymentMethod,
                     order.Status
+                })
+            };
+        }
+
+        internal static OutboxMessage ToOutboxMessageForUpdate(Order orderToUpdate, Guid correlationId)
+        {
+            return new OutboxMessage
+            {
+                CorrelationId = correlationId.ToString(),
+                Type = OutboxMessageTypes.OrderCreated,
+                OccurredOn = DateTime.UtcNow,
+                Content = JsonConvert.SerializeObject(new
+                {
+                    orderToUpdate.Id,
+                    orderToUpdate.UserName,
+                    orderToUpdate.TotalPrice,
+                    orderToUpdate.FirstName,
+                    orderToUpdate.LastName,
+                    orderToUpdate.AddressLine,
+                    orderToUpdate.Country,
+                    orderToUpdate.State,
+                    orderToUpdate.ZipCode,
+                    //PCI sensitive 
+                    orderToUpdate.CardName,
+                    orderToUpdate.CardNumber,
+                    orderToUpdate.Expiration,
+                    orderToUpdate.Cvv,
+                    orderToUpdate.PaymentMethod,
+                    orderToUpdate.Status
                 })
             };
         }
