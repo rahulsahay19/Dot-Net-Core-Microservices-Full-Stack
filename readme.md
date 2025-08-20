@@ -4,27 +4,6 @@ Welcome to the **official repository** of our **advanced microservices course**.
 This project is a **real-world e-commerce application** built with **.NET 9, RabbitMQ, SQL Server, Redis, PostgreSQL, and Docker**.  
 
 We go **beyond CRUD APIs** — this course teaches you how to build **enterprise-grade, event-driven, cloud-native microservices** with **Saga and Outbox patterns** for **transactional consistency**.  
-## Docker Commands
-Docker commands to help you with different dbs and services during the development process.
-
-```Docker Commands
-docker run -d --name mongodb -p 27017:27017 -e mongo:latest
-
-docker run -d --name redis-server -p 6379:6379 redis
-
-docker run --name discount-postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=Password@1 -e POSTGRES_DB=DiscountDb -p 5432:5432 -d postgres
-
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Rahul1234567" -p 1433:1433 --name order-sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
-
-docker run -d --hostname rabbitmq-host --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
-
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Rahul1234567" -p 1434:1433 --name identitydb -d mcr.microsoft.com/mssql/server:2022-latest
-
-docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-
-docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://elasticsearch:9200" docker.elastic.co/kibana/kibana:8.13.4
-
-```
 
 ## 🏗 Architecture Overview  
 
@@ -87,6 +66,28 @@ Containerization: Docker, Docker Compose
 Frontend: Angular 20 (Phase 2)
 
 Cloud Ready: Kubernetes, Azure CI/CD, Service Mesh (Phase 3)
+
+## Docker Commands
+Docker commands to help you with different dbs and services during the development process.
+
+```Docker Commands
+docker run -d --name mongodb -p 27017:27017 -e mongo:latest
+
+docker run -d --name redis-server -p 6379:6379 redis
+
+docker run --name discount-postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=Password@1 -e POSTGRES_DB=DiscountDb -p 5432:5432 -d postgres
+
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Rahul1234567" -p 1433:1433 --name order-sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
+
+docker run -d --hostname rabbitmq-host --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
+
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Rahul1234567" -p 1434:1433 --name identitydb -d mcr.microsoft.com/mssql/server:2022-latest
+
+docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+
+docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://elasticsearch:9200" docker.elastic.co/kibana/kibana:8.13.4
+
+```
 
 📚 Course Structure
 🔹 Phase 1: Backend Microservices Development
