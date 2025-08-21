@@ -3,7 +3,9 @@
 Welcome to the **official repository** of our **advanced microservices course**.  
 This project is a **real-world e-commerce application** built with **.NET 9, RabbitMQ, SQL Server, Redis, PostgreSQL, and Docker**.  
 
-We go **beyond CRUD APIs** — this course teaches you how to build **enterprise-grade, event-driven, cloud-native microservices** with **Saga and Outbox patterns** for **transactional consistency**.  
+We go **beyond CRUD APIs** — this course teaches you how to build **enterprise-grade, event-driven, cloud-native microservices** with **Saga and Outbox patterns** for **transactional consistency**.
+
+## Subscribe here:- https://www.udemy.com/course/building-amazon-style-full-stack-microservices/?couponCode=BEST-PRICE
 
 ## 🏗 Architecture Overview  
 
