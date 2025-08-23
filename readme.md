@@ -85,9 +85,9 @@ docker run -d --hostname rabbitmq-host --name rabbitmq -p 5672:5672 -p 15672:156
 
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Rahul1234567" -p 1434:1433 --name identitydb -d mcr.microsoft.com/mssql/server:2022-latest
 
-docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.14.3
 
-docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://elasticsearch:9200" docker.elastic.co/kibana/kibana:8.13.4
+docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://elasticsearch:9200" docker.elastic.co/kibana/kibana:8.14.3
 
 ```
 
