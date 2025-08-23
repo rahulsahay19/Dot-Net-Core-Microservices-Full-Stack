@@ -73,7 +73,7 @@ Cloud Ready: Kubernetes, Azure CI/CD, Service Mesh (Phase 3)
 Docker commands to help you with different dbs and services during the development process.
 
 ```Docker Commands
-docker run -d --name mongodb -p 27017:27017 -e mongo:latest
+docker run -d --name mongodb -p 27017:27017 mongo:latest
 
 docker run -d --name redis-server -p 6379:6379 redis
 
