@@ -50,6 +50,8 @@ using (var scope = app.Services.CreateScope())
     await DatabaseSeeder.SeedAsync(config);
 }
 
+app.UseMiddleware<CorrelationIdMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

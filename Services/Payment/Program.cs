@@ -31,6 +31,7 @@ builder.Services.AddMassTransit(config =>
 });
 
 var app = builder.Build();
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

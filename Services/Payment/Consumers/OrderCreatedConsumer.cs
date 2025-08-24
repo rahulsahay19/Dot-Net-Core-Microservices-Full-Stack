@@ -18,29 +18,33 @@ namespace Payment.Consumers
             var message = context.Message;
             _logger.LogInformation("Processing payment for Order Id: {OrderId}", message.Id);
 
-            //Simulate for Payment processing
-            await Task.Delay(1000);
-            if (message.TotalPrice > 0)
+            using (Serilog.Context.LogContext.PushProperty("CorrelationId", message.CorrelationId))
             {
-                //Simulating Success
-                var completedEvent = new PaymentCompletedEvent
+
+                //Simulate for Payment processing
+                await Task.Delay(1000);
+                if (message.TotalPrice > 0)
                 {
-                    OrderId = message.Id,
-                    CorrelationId = context.CorrelationId.Value 
-                };
-                await _publishEndpoint.Publish(completedEvent);
-                _logger.LogInformation("Payment success for Order Id: {OrderId} and {CorrelationId}", message.Id, message.CorrelationId);
-            }
-            else
-            {
-                var failedEvent = new PaymentFailedEvent
+                    //Simulating Success
+                    var completedEvent = new PaymentCompletedEvent
+                    {
+                        OrderId = message.Id,
+                        CorrelationId = message.CorrelationId
+                    };
+                    await _publishEndpoint.Publish(completedEvent);
+                    _logger.LogInformation("Payment success for Order Id: {OrderId} and {CorrelationId}", message.Id, message.CorrelationId);
+                }
+                else
                 {
-                    OrderId = message.Id,
-                    CorrelationId = context.CorrelationId.Value,
-                    Reason = "Total price was zero or negative."
-                };
-                await _publishEndpoint.Publish(failedEvent);
-                _logger.LogWarning("Payment failed for Order Id: {OrderId} and {CorrelationId}", message.Id, message.CorrelationId);
+                    var failedEvent = new PaymentFailedEvent
+                    {
+                        OrderId = message.Id,
+                        CorrelationId = message.CorrelationId,
+                        Reason = "Total price was zero or negative."
+                    };
+                    await _publishEndpoint.Publish(failedEvent);
+                    _logger.LogWarning("Payment failed for Order Id: {OrderId} and {CorrelationId}", message.Id, message.CorrelationId);
+                }
             }
         }
     }

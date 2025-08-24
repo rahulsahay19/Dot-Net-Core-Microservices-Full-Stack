@@ -6,7 +6,7 @@
         public DateTime CreationDate { get; set; }
         public BaseIntegrationEvent()
         {
-            CorrelationId = Guid.NewGuid();
+            //CorrelationId = Guid.NewGuid(); Not Required as it will be set in the middleware
             CreationDate = DateTime.UtcNow;
         }
 

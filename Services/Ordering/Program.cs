@@ -56,7 +56,7 @@ builder.Services.AddMassTransit(config =>
 });
 
 var app = builder.Build();
-
+app.UseMiddleware<CorrelationIdMiddleware>();
 //Migration
 app.MigrateDatabase<OrderContext>((context, services) =>
 {
