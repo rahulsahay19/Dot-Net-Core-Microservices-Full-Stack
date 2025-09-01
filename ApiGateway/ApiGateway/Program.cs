@@ -12,7 +12,24 @@ var key = jwtSettings["Key"];
 var issuer = jwtSettings["Issuer"];
 var audience = jwtSettings["Audience"];
 
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange:true);
+var env = builder.Environment.EnvironmentName; //Local, Development
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("ocelot.Local.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"ocelot.{env}.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Angular app
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 //Add JWT auth to ocelot
 builder.Services.AddAuthentication("Bearer")
@@ -30,7 +47,7 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 builder.Services.AddAuthorization();
-builder.Services.AddOcelot();
+builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -43,6 +60,9 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+// CORS must come before Ocelot
+app.UseCors("AllowFrontend");
 
 //app.UseHttpsRedirection();
 app.UseMiddleware<CorrelationIdMiddleware>();
