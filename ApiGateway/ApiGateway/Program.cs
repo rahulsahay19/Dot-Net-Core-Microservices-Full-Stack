@@ -61,6 +61,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseRouting();
 // CORS must come before Ocelot
 app.UseCors("AllowFrontend");
 
@@ -70,6 +71,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello Ocelot"); });
+});
 
 await app.UseOcelot();
 app.Run();

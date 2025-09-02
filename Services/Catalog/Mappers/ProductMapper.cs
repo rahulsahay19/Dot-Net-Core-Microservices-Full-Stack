@@ -15,7 +15,7 @@ namespace Catalog.Mappers
             {
                 Id = product.Id,
                 Name = product.Name,
-                Summary = product.Summamry,
+                Summary = product.Summary,
                 Description = product.Description,
                 ImageFile = product.ImageFile,
                 Price = product.Price,
@@ -39,7 +39,7 @@ namespace Catalog.Mappers
             new Product
             {
                 Name = command.Name,
-                Summamry = command.Summamry,
+                Summary = command.Summary,
                 Description = command.Description,
                 ImageFile = command.ImageFile,
                 Brand = brand,
@@ -54,7 +54,7 @@ namespace Catalog.Mappers
             {
                 Id = existing.Id,
                 Name = command.Name,
-                Summamry = command.Summamry,
+                Summary = command.Summary,
                 ImageFile = command.ImageFile,
                 Brand = brand,
                 Type = type,
@@ -85,7 +85,7 @@ namespace Catalog.Mappers
             {
                 Id = id,
                 Name =  dto.Name,
-                Summamry = dto.Summary,
+                Summary = dto.Summary,
                 Description = dto.Description,
                 ImageFile = dto.ImageFile,
                 Price = dto.Price,

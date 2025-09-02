@@ -1,7 +1,7 @@
 services:
 
  catalogdb:
-   image: mongo:latest
+   image: mongo
  basketdb:
    image: redis:alpine
  discountdb:
