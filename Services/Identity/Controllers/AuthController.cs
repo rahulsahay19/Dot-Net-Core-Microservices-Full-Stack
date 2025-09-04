@@ -39,7 +39,7 @@ namespace Identity.Controllers
             _logger.LogInformation($"User {dto.Email} registration attempted.");
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
-            return Ok("Registration Successful");
+            return Ok(new { message = "Registration Successful" });
         }
 
         [HttpPost("login")]

@@ -20,12 +20,14 @@ builder.Configuration
     .AddJsonFile($"ocelot.{env}.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-// Add CORS
+// CORS from configuration
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Angular app
+        policy.WithOrigins(allowedOrigins ?? Array.Empty<string>())
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
