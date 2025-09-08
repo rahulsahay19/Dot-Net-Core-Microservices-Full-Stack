@@ -1,0 +1,34 @@
+<nav class="navbar">
+  <!-- Left: Logo + Departments -->
+  <div class="navbar__left">
+    <a routerLink="/" class="navbar__logo">🛒 Amazing</a>
+    <button class="navbar__departments">☰ Departments</button>
+  </div>
+
+  <!-- Center: Search -->
+  <div class="navbar__center">
+    <select class="navbar__category">
+      <option>All</option>
+      <option>Electronics</option>
+      <option>Fashion</option>
+      <option>Home</option>
+    </select>
+    <input class="navbar__search"
+           type="text"
+           [(ngModel)]="searchText"
+           placeholder="Search for products, brands and more..."
+           (keyup.enter)="onSearch()" />
+    <button class="navbar__search-btn" (click)="onSearch()">🔍</button>
+  </div>
+
+  <!-- Right: Account + Cart -->
+  <div class="navbar__right">
+    <a routerLink="/account" class="navbar__link">
+      Hello, Sign in<br /><span>Account & Orders</span>
+    </a>
+    <a routerLink="/basket" class="navbar__link navbar__cart">
+      🛍️ Cart
+      <span class="navbar__cart-badge">{{ cartCount }}</span>
+    </a>
+  </div>
+</nav>
