@@ -7,7 +7,7 @@ import { NotFound } from './core/not-found/not-found';
 
 export const routes: Routes = [
     { path: '', component: Home },
-    { path: 'store', component: Store },
+    { path: 'store', loadChildren: () => import('./store/store-module').then(m=>m.StoreModule) },
     { path: 'server-error', component: ServerError },
     { path: 'unauthenticated', component: UnAuthenticated },
     { path: '**', component: NotFound}
