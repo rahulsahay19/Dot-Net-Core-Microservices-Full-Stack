@@ -1,52 +1,64 @@
 <div class="store">
-    <h2>Our Products</h2>
-  
-    <div class="store-layout">
-      <!-- Sidebar Filters -->
-      <aside class="filters">
-        <h3>Filter by Brand</h3>
-        <button (click)="selectedBrand.set(null)">All</button>
-        <button (click)="selectedBrand.set('Nike')">Nike</button>
-        <button (click)="selectedBrand.set('Adidas')">Adidas</button>
-  
-        <h3>Filter by Type</h3>
-        <button (click)="selectedType.set(null)">All</button>
-        <button (click)="selectedType.set('Shoes')">Shoes</button>
-        <button (click)="selectedType.set('Clothing')">Clothing</button>
-  
-        <h3>Sort by</h3>
-        <select (change)="sortOption.set($any($event.target).value)" [value]="sortOption()">
-          <option value="default">Default</option>
-          <option value="priceAsc">Price: Low to High</option>
-          <option value="priceDesc">Price: High to Low</option>
-        </select>
-  
-        <button class="reset-btn"
-        [disabled]="!selectedBrand() && !selectedType() && sortOption() === 'default'"
-        (click)="resetFilters()">Reset Filters</button>
-      </aside>
-  
-      <!-- Product Grid -->
-      <section class="grid">
-        @for (product of paginatedProducts(); track product.id) {
-          <div class="card">
-            <img [src]="product.image" [alt]="product.name" />
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.brand }} - {{ product.type }}</p>
-            <p class="price">₹{{ product.price }}</p>
-            <button>Add to Cart</button>
-          </div>
-        }
-      </section>
-    </div>
-  
-    <!-- Pagination controls -->
-    <div class="pagination">
-      <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1">Prev</button>
-      @for (page of [].constructor(totalPages()); let i = $index; track i) {
-        <button (click)="goToPage(i+1)" [class.active]="currentPage() === i+1">{{ i+1 }}</button>
+  <h2>Our Products</h2>
+
+  <div class="store-layout">
+    <!-- Sidebar Filters -->
+    <aside class="filters">
+      <h3>Filter by Brand</h3>
+      <button (click)="selectedBrand.set(null); applyFilters()">All</button>
+      @for (brand of brands(); track brand.id) {
+        <button (click)="selectedBrand.set(brand.name); applyFilters()">
+          {{ brand.name }}
+        </button>
       }
-      <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()">Next</button>
-    </div>
+      
+      <h3>Filter by Type</h3>
+      <button (click)="selectedType.set(null); applyFilters()">All</button>
+      @for (type of types(); track type.id) {
+        <button (click)="selectedType.set(type.name); applyFilters()">
+          {{ type.name }}
+        </button>
+      }
+      
+      <h3>Sort by</h3>
+      <select (change)="sortOption.set($any($event.target).value); applyFilters()"
+              [value]="sortOption()">
+        <option value="default">Default</option>
+        <option value="priceAsc">Price: Low to High</option>
+        <option value="priceDesc">Price: High to Low</option>
+      </select>
+
+      <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+    </aside>
+
+    <!-- Product Grid -->
+    <section class="grid">
+      @for (product of filteredProducts(); track product.id) {
+        <div class="card">
+          <img [src]="'assets/' + product.imageFile" alt="{{ product.name }}" />
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.brand.name }} - {{ product.type.name }}</p>
+          <p class="price">₹{{ product.price }}</p>
+        
+          <div class="card-actions">
+            <a class="btn-details"
+            [routerLink]="['/store/product', product.id]"
+            [attr.href]="'/store/product/' + product.id">
+           🔍 View Details
+         </a>
+            <button class="btn-cart">🛒 Add to Cart</button>            
+          </div>
+        </div>
+      }
+    </section>
   </div>
-  
+
+  <!-- Pagination controls -->
+  <div class="pagination">
+    <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1">Prev</button>
+    @for (page of [].constructor(totalPages()); let i = $index; track i) {
+      <button (click)="goToPage(i+1)" [class.active]="currentPage() === i+1">{{ i+1 }}</button>
+    }
+    <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()">Next</button>
+  </div>
+</div>
