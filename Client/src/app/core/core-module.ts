@@ -8,7 +8,9 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [
     CommonModule
   ],
