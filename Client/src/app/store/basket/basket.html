@@ -1,0 +1,48 @@
+@if (basket(); as b) {
+  <div class="basket">
+    <h2>Your Shopping Cart</h2>
+
+    @if (b.items.length === 0) {
+      <p>Your cart is empty.</p>
+    } @else {
+      <table class="basket-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of b.items; track item.productId) {
+            <tr>
+              <td>
+                <img [src]="'assets/' + item.imageFile" 
+                     alt="{{ item.productName }}" 
+                     width="50" />
+                {{ item.productName }}
+              </td>
+              <td>₹{{ item.price }}</td>
+              <td>
+                <button (click)="decrement(item)">−</button>
+                {{ item.quantity }}
+                <button (click)="increment(item)">+</button>
+              </td>
+              <td>₹{{ item.price * item.quantity }}</td>
+              <td>
+                <button class="remove-btn" (click)="removeItem(item)">Remove</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="basket-summary">
+        <h3>Total: ₹{{ b.totalPrice }}</h3>
+        <button class="btn-checkout" (click)="checkout()">Proceed to Checkout</button>
+      </div>
+    }
+  </div>
+}
