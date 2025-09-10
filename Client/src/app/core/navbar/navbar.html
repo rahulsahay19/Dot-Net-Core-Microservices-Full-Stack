@@ -26,9 +26,13 @@
     <a routerLink="/account" class="navbar__link">
       Hello, Sign in<br /><span>Account & Orders</span>
     </a>
-    <a routerLink="/basket" class="navbar__link navbar__cart">
-      🛍️ Cart
-      <span class="navbar__cart-badge">{{ cartCount }}</span>
+   <a routerLink="/store/basket" class="navbar__link navbar__cart"
+       title="You have {{ cartCount }} items in your cart">
+      <span class="cart-icon">🛒</span>
+      <span>Cart</span>
+      @if (cartCount > 0) {
+        <span class="navbar__cart-badge">{{ cartCount }}</span>
+      }
     </a>
   </div>
 </nav>

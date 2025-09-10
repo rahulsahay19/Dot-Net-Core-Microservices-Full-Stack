@@ -5,6 +5,8 @@ import { ProductService } from '../services/product.service';
 import { Product } from '../models/Product';
 import { Brand } from '../models/Brand';
 import { Type } from '../models/Type';
+import { BasketService } from '../services/basket.service';
+import { BasketItem, Basket } from '../models/Basket';
 
 @Component({
   selector: 'app-store',
@@ -16,6 +18,7 @@ import { Type } from '../models/Type';
 export class Store implements OnInit {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
+  private basketService = inject(BasketService);
 
   //Signals
   products = signal<Product[]>([]);
@@ -106,6 +109,44 @@ export class Store implements OnInit {
     }
     return result;
   });
+
+  // Add to Cart
+  addToCart(p: Product) {
+      const newItem: BasketItem = {
+        productId: p.id,
+        productName: p.name,
+        price: p.price,
+        quantity: 1,
+        imageFile: p.imageFile,
+      };
+      // First fetch existing basket
+      this.basketService.getBasket('rahul.sahay').subscribe((current) => {
+        let items = [...current.items];
+        //if product already exists, then increment quantity
+        const existing = items.find((i) => i.productId === p.id);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          items.push(newItem);
+        }
+  
+        //Recalculate total price
+        const basket: Basket = {
+          userName: 'rahul.sahay',
+          items,
+          totalPrice: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+        };
+  
+        // Save updated basket
+        this.basketService.updateBasket(basket).subscribe({
+          next: (res) => {
+            this.basketService.setBasket(res);
+            console.log('Basket updated', res);
+          },
+          error: (err) => console.log('Eror adding to basket:', err),
+        });
+      });
+    }
 
   // Reset filters
   resetFilters() {

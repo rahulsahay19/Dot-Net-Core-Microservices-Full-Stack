@@ -46,7 +46,7 @@
             [attr.href]="'/store/product/' + product.id">
            🔍 View Details
          </a>
-            <button class="btn-cart">🛒 Add to Cart</button>            
+            <button class="btn-cart" (click)="addToCart(product)">🛒 Add to Cart</button>            
           </div>
         </div>
       }
