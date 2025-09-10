@@ -92,3 +92,37 @@
     background-color: #5a6268;
   }
   
+  .breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 12px 0 20px;
+  padding: 8px 14px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.breadcrumb a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.breadcrumb .separator {
+  margin: 0 6px;
+  color: #888;
+  font-size: 12px;
+}
+
+.breadcrumb span:last-child {
+  color: #333;
+  font-weight: 600;
+}

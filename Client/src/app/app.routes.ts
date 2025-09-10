@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
-import { Store } from './store/store/store';
 import { ServerError } from './core/server-error/server-error';
 import { UnAuthenticated } from './core/un-authenticated/un-authenticated';
 import { NotFound } from './core/not-found/not-found';

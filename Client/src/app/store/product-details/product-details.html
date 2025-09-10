@@ -1,4 +1,13 @@
 @if (product(); as p) {
+    <nav class="breadcrumb">
+        <a [routerLink]="['/']">Home</a>
+        <span class="separator">></span>
+        <a [routerLink]="['/store']">Store</a>
+        <span class="separator">></span>
+        <span>{{p.name}}</span>
+    </nav>
+}
+@if (product(); as p) {
     <div class="details">
         <div class="details-image">
             <img [src]="'assets/' + p.imageFile" alt="{{p.name}}"/>
