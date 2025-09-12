@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BasketService } from '../../store/services/basket.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +12,15 @@ import { BasketService } from '../../store/services/basket.service';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
-export class Navbar {
+export class Navbar implements OnInit {
   searchText = '';
   private basketService = inject(BasketService);
-  constructor(private router: Router){}
+  private authService = inject(AuthService);
+  private router = inject(Router);
+   
+  ngOnInit(): void {
+    this.basketService.initializeBasket('rahul.sahay'); 
+  }
 
   get cartCount(){
     return this.basketService.basketCount();
@@ -27,5 +33,18 @@ export class Navbar {
     } else {
       this.router.navigate(['/store']); //reset to full catalog
     }
+  }
+
+  get loggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  get userName(): string | null {
+    return this.authService.getUserName();
+  }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
 }

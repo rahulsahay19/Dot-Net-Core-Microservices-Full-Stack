@@ -1,0 +1,18 @@
+<div class="checkout-success">
+    <div class="checkout-success__card">
+        <div class="checkout-success__icon">
+            <img src="assets/images/order-success.svg" alt="Order Success" />
+        </div>
+        <h2>🎉 Order Confirmed!</h2>
+        <p>Your order has been placed successfully.</p>
+        @if (totalPrice) {
+            <p>
+                Total Paid: <strong>₹{{ totalPrice }}</strong>
+            </p>
+        }
+        <div class="checkout-success__actions">
+            <button class="btn-primary" (click)="goToOrders()">View My Orders</button>
+            <button class="btn-secondary" (click)="goToStore()">Continue Shopping</button>
+        </div>
+    </div>
+</div>

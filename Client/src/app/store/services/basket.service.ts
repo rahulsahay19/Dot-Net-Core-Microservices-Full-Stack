@@ -25,6 +25,16 @@ export class BasketService {
         return basket ? basket.items.reduce((sum, i) => sum + i.quantity, 0): 0;
     }
 
+    initializeBasket(userName: string){
+        this.getBasket(userName).subscribe({
+            next: (res) => this.setBasket(res),
+            error: (err) =>{
+                console.error('Error loading basket', err);
+                this.setBasket({ userName, items: [], totalPrice: 0 }); // fallback empty
+            }
+        });
+    }
+
     getBasket(username: string): Observable<Basket> {
         return this.http.get<Basket>(`${this.baseUrl}/${username}`);
     }
@@ -47,5 +57,11 @@ export class BasketService {
     // expose current basket as signal getter
     get basket() {
         return this.basketSignal();
+    }
+
+    clearBasket() {
+        this.basketSignal.set(null);
+        this.basketCount.set(0);
+        localStorage.removeItem('basket');
     }
 }

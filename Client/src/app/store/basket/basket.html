@@ -3,7 +3,11 @@
     <h2>Your Shopping Cart</h2>
 
     @if (b.items.length === 0) {
-      <p>Your cart is empty.</p>
+      <div class="empty-cart">
+        <img src="assets/images/empty-cart.svg" alt="Empty Cart"/>
+        <p>Your cart is empty.</p>
+        <button class="btn-shop" routerLink="/store">Start Shopping</button>
+      </div>      
     } @else {
       <table class="basket-table">
         <thead>

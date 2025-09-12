@@ -3,6 +3,8 @@ import { inject, Injectable, signal } from "@angular/core";
 import { RegisterDto } from "./models/RegisterDto";
 import { Observable } from "rxjs";
 import { LoginDto } from "./models/LoginDto";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "./models/JwtPayload";
 
 @Injectable({providedIn:'root'})
 export class AuthService {
@@ -32,5 +34,17 @@ export class AuthService {
 
     isLoggedIn(): boolean {
         return !!localStorage.getItem('token');
+    }
+
+    //get username - extract name/email from JWT
+    getUserName(): string | null {
+        const token = this.userToken();
+        if(!token) return null;
+        try {
+            const decoded = jwtDecode<JwtPayload>(token);
+            return decoded.name || decoded.sub || null;
+        } catch {
+            return null;
+        }
     }
 }

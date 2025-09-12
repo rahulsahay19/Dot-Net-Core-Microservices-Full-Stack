@@ -1,58 +1,112 @@
 .basket {
-  padding: 20px;
-}
+  padding: 2rem;
+  background: #fff;
 
-.basket-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
 
-.basket-table th,
-.basket-table td {
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-}
+  .empty-cart {
+    text-align: center;
+    margin-top: 3rem;
 
-.basket-table img {
-  vertical-align: middle;
-  margin-right: 8px;
-}
+    img {
+      max-width: 200px;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
 
-.basket-table button {
-  margin: 0 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
+    p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
 
-.remove-btn {
-  color: #fff;
-  background: #d9534f;
-  border: none;
-  border-radius: 4px;
-}
+    .btn-shop {
+      background: #ff9900; // Amazon orange
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.3s ease;
 
-.remove-btn:hover {
-  background: #c9302c;
-}
+      &:hover {
+        background: #e68a00;
+      }
+    }
+  }
 
-.basket-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .basket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
 
-.btn-checkout {
-  padding: 10px 20px;
-  background: #007bff;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
 
-.btn-checkout:hover {
-  background: #0056b3;
+    img {
+      margin-right: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 0.3rem 0.6rem;
+      margin: 0 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #f9f9f9;
+      cursor: pointer;
+
+      &:hover {
+        background: #eee;
+      }
+    }
+
+    .remove-btn {
+      background: #f44336;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+
+  .basket-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      color: #222;
+    }
+
+    .btn-checkout {
+      background: #ff9900;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #e68a00;
+      }
+    }
+  }
 }
