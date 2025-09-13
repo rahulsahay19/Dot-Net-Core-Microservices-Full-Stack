@@ -1,4 +1,27 @@
 <div class="home">
-  <h1>Welcome to Amazing!</h1>
-  <p>Browse our categories and find the best deals.</p>
+  <section class="home__hero">
+    <div class="home__hero-content">
+      <h1>Welcome to Amazing!</h1>
+      <p>Browse our categories and find the best deals.</p>
+      <button routerLink="/store" class="btn-primary">Start Shopping</button>
+    </div>
+  </section>
+
+  <section class="home__categories">
+    <h2>Browse Categories</h2>
+    <div class="categories__grid">
+      @for (cat of categories; track cat.id) {
+        <div class="category__card" (click)="goToCategory(cat)">
+          <img [src]="cat.image" [alt]="cat.name"/>
+          <h3>{{cat.name}}</h3>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="home__promo">
+    <h2>🔥 Limited Time Offers</h2>
+    <p>Check out our exclusive deals and discounts. Don't miss out!</p>
+    <button routerLink="/store" class="btn-secondary">View Deals</button>
+  </section>
 </div>

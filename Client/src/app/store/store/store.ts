@@ -44,6 +44,7 @@ export class Store implements OnInit {
     // watch for search query param
     this.route.queryParams.subscribe((params) => {
       this.searchTerm.set(params['search'] || '');
+      this.selectedTypeId.set(params['typeId'] || null);
       this.currentPage.set(1); // reset pagination on new search
       this.loadProducts();
     });
