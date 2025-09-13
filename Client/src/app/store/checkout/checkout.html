@@ -1,1 +1,42 @@
-<p>checkout works!</p>
+<div class="checkout">
+  <h2>Checkout</h2>
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <h3>User Information</h3>
+    <input formControlName="userName" placeholder="Username" />
+    <input formControlName="firstName" placeholder="First Name" />
+    <input formControlName="lastName" placeholder="Last Name" />
+    <input formControlName="emailAddress" placeholder="Email Address" />
+
+    <h3>Shipping Address</h3>
+    <input formControlName="addressLine" placeholder="Address" />
+    <input formControlName="state" placeholder="State" />
+    <input formControlName="country" placeholder="Country" />
+    <input formControlName="zipCode" placeholder="Zip Code" />
+
+    <h3>Payment Information</h3>
+    <input formControlName="cardName" placeholder="Card Name" />
+    <input formControlName="cardNumber" placeholder="Card Number" />
+    <input formControlName="expiration" placeholder="MM/YY" />
+    <input formControlName="cvv" placeholder="CVV" />
+
+    <h3>Payment Method</h3>
+    <label> <input type="radio" value="1" formControlName="paymentMethod" /> Card </label>
+    <label>
+      <input type="radio" value="2" formControlName="paymentMethod" /> Cash on Delivery
+    </label>
+
+    <button type="submit" [disabled]="checkoutForm.invalid">Place Order</button>
+  </form>
+
+  @if (basket) {
+    <div class="checkout-summary">
+      <h3>Order Summary</h3>
+      <ul>
+        @for (item of basket.items; track item.productId) {
+          <li>{{ item.productName }} × {{ item.quantity }} = ₹{{ item.price * item.quantity }}</li>
+        }
+      </ul>
+      <h4>Total: ₹{{ basket.totalPrice }}</h4>
+    </div>
+  }
+</div>

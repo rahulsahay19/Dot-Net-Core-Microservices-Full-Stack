@@ -1,1 +1,41 @@
-<p>orders works!</p>
+<div class="orders">
+  <h2>My Orders</h2>
+
+  @if (loading()) {
+    <div class="orders__loading">Loading your orders...</div>
+  }
+
+  @if (!loading() && orders().length === 0) {
+    <div class="orders__empty">
+      <img src="assets/images/empty-orders.svg" alt="No Orders" />
+      <p>You haven’t placed any orders yet.</p>
+      <button routerLink="/store" class="btn-shop">Start Shopping</button>
+    </div>
+  }
+
+  @for (order of orders(); track order.id) {
+    <div class="orders__card">
+      <!-- Order Header -->
+      <div class="orders__header">
+        <div>
+          <strong>Order #{{ order.id }}</strong>
+          <span class="orders__date">Placed By: {{ order.firstName }} {{ order.lastName }}</span>
+        </div>
+        <div class="orders__total">Total: ₹{{ order.totalPrice }}</div>
+      </div>
+
+      <!-- Order Details -->
+      <div class="orders__details">
+        <p><strong>Email:</strong> {{ order.emailAddress }}</p>
+        <p><strong>Address:</strong> {{ order.addressLine }}, {{ order.state }}, {{ order.country }} - {{ order.zipCode }}</p>
+        <p><strong>Payment Method:</strong> {{ order.cardName }} (****{{ order.cardNumber.slice(-4) }})</p>
+      </div>
+
+      <!-- Actions -->
+      <div class="orders__actions">
+        <button class="btn-secondary">View Details</button>
+        <button class="btn-primary" routerLink="/store">Buy Again</button>
+      </div>
+    </div>
+  }
+</div>

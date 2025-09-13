@@ -45,7 +45,7 @@
 
       <div class="basket-summary">
         <h3>Total: ₹{{ b.totalPrice }}</h3>
-        <button class="btn-checkout">Proceed to Checkout</button>
+        <button class="btn-checkout" routerLink="/store/checkout" [queryParams]="{returnUrl: '/store/checkout'}">Proceed to Checkout</button>
       </div>
     }
   </div>
