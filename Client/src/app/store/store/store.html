@@ -5,17 +5,17 @@
     <!-- Sidebar Filters -->
     <aside class="filters">
       <h3>Filter by Brand</h3>
-      <button (click)="selectedBrand.set(null); applyFilters()">All</button>
+      <button (click)="selectedBrandId.set(null); applyFilters()">All</button>
       @for (brand of brands(); track brand.id) {
-        <button (click)="selectedBrand.set(brand.name); applyFilters()">
+        <button (click)="selectedBrandId.set(brand.id); applyFilters()">
           {{ brand.name }}
         </button>
       }
       
       <h3>Filter by Type</h3>
-      <button (click)="selectedType.set(null); applyFilters()">All</button>
+      <button (click)="selectedTypeId.set(null); applyFilters()">All</button>
       @for (type of types(); track type.id) {
-        <button (click)="selectedType.set(type.name); applyFilters()">
+        <button (click)="selectedTypeId.set(type.id); applyFilters()">
           {{ type.name }}
         </button>
       }
@@ -33,7 +33,7 @@
 
     <!-- Product Grid -->
     <section class="grid">
-      @for (product of filteredProducts(); track product.id) {
+      @for (product of products(); track product.id) {
         <div class="card">
           <img [src]="'assets/' + product.imageFile" alt="{{ product.name }}" />
           <h3>{{ product.name }}</h3>

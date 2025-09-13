@@ -16,15 +16,15 @@ export class ProductService {
   getAllProducts(
     page: number,
     size: number,
-    brand?: string | null,
-    type?: string | null,
+    brandId?: string | null,
+    typeId?: string | null,
     sort?: string | null,
     search?: string | null,
   ): Observable<CatalogResponse> {
     let params: string[] = [`pageIndex=${page}`, `pageSize=${size}`];
 
-    if (brand) params.push(`brand=${brand}`);
-    if (type) params.push(`type=${type}`);
+    if (brandId) params.push(`BrandId=${brandId}`); 
+    if (typeId) params.push(`TypeId=${typeId}`); 
     if (sort && sort !== 'default') params.push(`sort=${sort}`);
     if (search) params.push(`search=${encodeURIComponent(search)}`);
 
