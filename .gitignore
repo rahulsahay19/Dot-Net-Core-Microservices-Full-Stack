@@ -117,8 +117,6 @@ TestResults/
 # Dotnet watch
 #**/Properties/launchSettings.json
 
-# Docker
-docker-compose.override.yml
 
 # Publish output
 publish/
