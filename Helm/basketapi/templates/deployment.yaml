@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketapi
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: basketapi
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: basketapi
+
+  template:
+    metadata:
+      labels:
+        app: basketapi
+
+    spec:
+      containers:
+        - name: basketapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+
+          env:
+            # Base environment
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+
+            - name: ElasticConfiguration__Uri
+              value: {{ .Values.env.ElasticConfiguration__Uri | quote }}
+
+            - name: GrpcSettings__DiscountUrl
+              value: {{ .Values.env.GrpcSettings__DiscountUrl | quote }}
+
+            # Redis
+            - name: CacheSettings__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: rediscacheconnection-secret
+                  key: rediscacheconnection-secret
+
+            # Service Bus
+            - name: EventBusSettings__HostAddress
+              valueFrom:
+                secretKeyRef:
+                  name: servicebusconnection-secret
+                  key: servicebusconnection-secret
+
+            # JWT Key
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwtkey-secret
+                  key: jwtkey-secret
+
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: basket-kv-secrets
