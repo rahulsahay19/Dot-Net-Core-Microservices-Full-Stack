@@ -1,0 +1,45 @@
+replicaCount: 1
+
+image:
+  repository: ecomacrnet9.azurecr.io/catalog
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: false
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
+
+env:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  ElasticConfiguration__Uri: "http://elasticsearch:9200"
+
+# Azure Key Vault CSI
+keyVault:
+  enabled: true
+  name: ecom-kv-net9
+  tenantId: 02d34192-5027-485f-9f55-c9b0f9a34e6f
+  userAssignedIdentityID: c8d1b9d4-5c68-4859-a545-947b4deafe3b
+  resourceGroup: rg-ecommerce
+  subscriptionId: 18c0cdf7-3490-488d-9080-82609b1ac3f8
+
+  secrets:
+    - name: catalog-db-connection
+      alias: catalog-db-connection-secret
+      
+    - name: JwtKey
+      alias: jwtkey-secret
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false

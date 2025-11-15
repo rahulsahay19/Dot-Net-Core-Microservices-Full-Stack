@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "catalogapi.fullname" . }}
+  labels:
+    app: catalogapi
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: catalogapi

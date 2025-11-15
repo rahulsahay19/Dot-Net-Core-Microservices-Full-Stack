@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "catalogapi.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: catalogapi
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: catalogapi
+
+  template:
+    metadata:
+      labels:
+        app: catalogapi
+    spec:
+
+      containers:
+        - name: catalogapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+
+            - name: ElasticConfiguration__Uri
+              value: {{ .Values.env.ElasticConfiguration__Uri | quote }}
+
+            # MongoDB connection string from KeyVault
+            - name: DatabaseSettings__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db-connection-secret
+                  key: catalog-db-connection-secret
+
+            # JWT key from KeyVault
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwtkey-secret
+                  key: jwtkey-secret
+
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: azure-kv-secrets
