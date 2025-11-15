@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: ecomacrnet9.azurecr.io/discount
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080   # Discount API listens on 8080 internally
+
+env:
+  ASPNETCORE_ENVIRONMENT: "Production"
+
+keyVault:
+  name: ecom-kv-net9
+  tenantId: 02d34192-5027-485f-9f55-c9b0f9a34e6f
+  userAssignedIdentityID: c8d1b9d4-5c68-4859-a545-947b4deafe3b
+
+secret:
+  name: discountdb-secret               # K8s Secret name to project
+  key: connectionstring                 # Key inside the K8s Secret
+  kvObjectName: DiscountDbConnection    # Secret name inside Key Vault

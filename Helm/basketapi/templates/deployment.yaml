@@ -37,12 +37,9 @@ spec:
             - name: GrpcSettings__DiscountUrl
               value: {{ .Values.env.GrpcSettings__DiscountUrl | quote }}
 
-            # Redis
+            # Bitnami Redis Cache
             - name: CacheSettings__ConnectionString
-              valueFrom:
-                secretKeyRef:
-                  name: rediscacheconnection-secret
-                  key: rediscacheconnection-secret
+              value: "redis-master.ecommerce.svc.cluster.local:6379,password=2ObyY5ZCd1"
 
             # Service Bus
             - name: EventBusSettings__HostAddress
