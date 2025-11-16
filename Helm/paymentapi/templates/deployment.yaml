@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentapi
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: paymentapi
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: paymentapi
+
+  template:
+    metadata:
+      labels:
+        app: paymentapi
+
+    spec:
+      containers:
+        - name: paymentapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+          env:
+            # Base environment
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+
+            - name: ElasticConfiguration__Uri
+              value: {{ .Values.env.ElasticConfiguration__Uri | quote }}
+
+            # RabbitMQ Event Bus
+            - name: EventBusSettings__HostAddress
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.eventBus.secretName }}
+                  key: {{ .Values.eventBus.secretKey }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

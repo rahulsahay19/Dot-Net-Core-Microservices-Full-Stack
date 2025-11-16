@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: ecomacrnet9.azurecr.io/payment
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+env:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  ElasticConfiguration__Uri: "http://elasticsearch:9200"
+
+# Event Bus (RabbitMQ)
+eventBus:
+  secretName: rabbitmq-secret
+  secretKey: rabbitmqconnection
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
