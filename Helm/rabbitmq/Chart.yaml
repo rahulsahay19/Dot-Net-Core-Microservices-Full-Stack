@@ -1,0 +1,6 @@
+apiVersion: v2
+name: rabbitmq
+description: RabbitMQ deployed using official Docker image
+type: application
+version: 1.0.0
+appVersion: "3-management"

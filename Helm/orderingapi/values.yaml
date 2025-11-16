@@ -9,10 +9,15 @@ env:
   ASPNETCORE_ENVIRONMENT: "Development"
 
 service:
-  type: LoadBalancer   # Change to ClusterIP if you don't want external access
-  port: 8080
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
 
 secret:
   name: orderingdb-secret
   key: orderingConnectionString
   value: Server=sqlserver.ecommerce.svc.cluster.local,1433;Database=OrderDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
+
+eventBus:
+  secretName: rabbitmq-secret
+  secretKey: rabbitmqconnection

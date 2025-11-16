@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: basketapi
+
 spec:
   replicas: {{ .Values.replicaCount }}
 
@@ -37,16 +38,16 @@ spec:
             - name: GrpcSettings__DiscountUrl
               value: {{ .Values.env.GrpcSettings__DiscountUrl | quote }}
 
-            # Bitnami Redis Cache
+            # Redis Cache
             - name: CacheSettings__ConnectionString
               value: "redis-master.ecommerce.svc.cluster.local:6379,password=2ObyY5ZCd1"
 
-            # Service Bus
+            # RabbitMQ (EventBus)
             - name: EventBusSettings__HostAddress
               valueFrom:
                 secretKeyRef:
-                  name: servicebusconnection-secret
-                  key: servicebusconnection-secret
+                  name: {{ .Values.eventBus.secretName }}
+                  key: {{ .Values.eventBus.secretKey }}
 
             # JWT Key
             - name: Jwt__Key

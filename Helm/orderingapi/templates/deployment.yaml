@@ -31,16 +31,16 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
 
-            # Local SQL Server inside AKS cluster
+            # SQL Server connection string
             - name: ConnectionStrings__OrderingConnectionString
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: {{ .Values.secret.key }}
 
-            # Service Bus (if needed)
+            # RabbitMQ (inside AKS)
             - name: EventBusSettings__HostAddress
               valueFrom:
                 secretKeyRef:
-                  name: servicebusconnection-secret
-                  key: servicebusconnection-secret
+                  name: {{ .Values.eventBus.secretName }}
+                  key: {{ .Values.eventBus.secretKey }}

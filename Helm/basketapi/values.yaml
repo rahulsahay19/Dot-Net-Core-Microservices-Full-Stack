@@ -15,6 +15,7 @@ env:
   ElasticConfiguration__Uri: "http://elasticsearch:9200"
   GrpcSettings__DiscountUrl: "http://discountapi:8080"
 
+# KeyVault (redis + jwt)
 keyVault:
   enabled: true
   name: ecom-kv-net9
@@ -27,11 +28,12 @@ keyVault:
     - name: RedisCacheConnection
       alias: RedisCacheConnection
 
-    - name: ServiceBusConnection
-      alias: ServiceBusConnection
-
     - name: JwtKey
       alias: JwtKey
+
+eventBus:
+  secretName: rabbitmq-secret
+  secretKey: rabbitmqconnection
 
 resources:
   requests:
