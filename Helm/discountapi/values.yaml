@@ -10,7 +10,7 @@ service:
   port: 8080   # Discount API listens on 8080 internally
 
 env:
-  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_ENVIRONMENT: "Development"
 
 keyVault:
   name: ecom-kv-net9

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderingapi
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: orderingapi
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: orderingapi
+
+  template:
+    metadata:
+      labels:
+        app: orderingapi
+
+    spec:
+      containers:
+        - name: orderingapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+
+            # Local SQL Server inside AKS cluster
+            - name: ConnectionStrings__OrderingConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.key }}
+
+            # Service Bus (if needed)
+            - name: EventBusSettings__HostAddress
+              valueFrom:
+                secretKeyRef:
+                  name: servicebusconnection-secret
+                  key: servicebusconnection-secret

@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: ecomacrnet9.azurecr.io/ordering
+  tag: "latest"
+  pullPolicy: Always
+
+env:
+  ASPNETCORE_ENVIRONMENT: "Development"
+
+service:
+  type: LoadBalancer   # Change to ClusterIP if you don't want external access
+  port: 8080
+
+secret:
+  name: orderingdb-secret
+  key: orderingConnectionString
+  value: Server=sqlserver.ecommerce.svc.cluster.local,1433;Database=OrderDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
