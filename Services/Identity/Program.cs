@@ -57,8 +57,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapOpenApi();
 }
-
-app.UseHttpsRedirection();
+//TODO: Commented for AKS. 
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

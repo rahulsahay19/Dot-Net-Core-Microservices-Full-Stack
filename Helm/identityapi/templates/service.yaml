@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: identityapi
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: identityapi
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.service.port }}        # 80
+      targetPort: {{ .Values.service.targetPort }}  # 8080

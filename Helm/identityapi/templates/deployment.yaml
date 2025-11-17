@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityapi
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: identityapi
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: identityapi
+
+  template:
+    metadata:
+      labels:
+        app: identityapi
+
+    spec:
+      containers:
+        - name: identityapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 8080   # SAME as ordering
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+
+            # SQL Server identity connection
+            - name: ConnectionStrings__IdentityConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.connectionKey }}
+
+            # JWT key from secret
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.jwtKey }}
+
+            - name: Jwt__Issuer
+              value: {{ .Values.jwt.issuer | quote }}
+
+            - name: Jwt__Audience
+              value: {{ .Values.jwt.audience | quote }}
+
+            - name: Jwt__DurationInMinutes
+              value: {{ .Values.jwt.duration | quote }}
