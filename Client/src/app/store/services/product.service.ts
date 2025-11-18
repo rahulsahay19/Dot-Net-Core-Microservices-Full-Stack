@@ -11,7 +11,8 @@ export class ProductService {
   private http = inject(HttpClient);
 
   // Gateway Url
-  private baseUrl = 'http://localhost:8010/Catalog';
+  //private baseUrl = 'http://localhost:8010/Catalog';
+  private baseUrl = 'http://48.195.184.227:8010/Catalog';
 
   getAllProducts(
     page: number,

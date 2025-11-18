@@ -16,7 +16,7 @@ var env = builder.Environment.EnvironmentName; //Local, Development
 
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("ocelot.Local.json", optional: false, reloadOnChange: true)
+   // .AddJsonFile("ocelot.Local.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"ocelot.{env}.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 

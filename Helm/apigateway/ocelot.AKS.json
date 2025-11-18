@@ -1,0 +1,72 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/Catalog/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "catalogapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/catalog/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/v1/Basket/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "basketapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/basket/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "discountapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/discount/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/v1/Order/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "orderingapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/order/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/v1/Payment/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "paymentapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/payment/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        { "Host": "identityapi", "Port": 80 }
+      ],
+      "UpstreamPathTemplate": "/identity/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "AddHeadersToRequest": { "x-correlation-id": "{X-Correlation-Id}" }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://apigateway.ecommerce.svc.cluster.local"
+  }
+}

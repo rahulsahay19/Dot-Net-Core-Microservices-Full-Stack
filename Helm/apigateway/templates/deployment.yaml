@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: apigateway
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: apigateway
+
+  template:
+    metadata:
+      labels:
+        app: apigateway
+
+    spec:
+      containers:
+        - name: apigateway
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "AKS"
+
+          ports:
+            - containerPort: 8080
+
+          volumeMounts:
+            - name: ocelot-config-vol
+              mountPath: /app/ocelot.AKS.json
+              subPath: ocelot.AKS.json
+
+      volumes:
+        - name: ocelot-config-vol
+          configMap:
+            name: ocelot-config

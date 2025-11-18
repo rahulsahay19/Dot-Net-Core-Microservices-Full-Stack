@@ -1,0 +1,11 @@
+replicaCount: 1
+
+image:
+  repository: ecomacrnet9.azurecr.io/ocelotapigateway
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 8010
+  targetPort: 8080

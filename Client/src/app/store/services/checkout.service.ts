@@ -6,7 +6,8 @@ import { Observable } from "rxjs";
 @Injectable({providedIn: 'root'})
 export class CheckoutService {
     private http = inject(HttpClient);
-    private baseUrl = 'http://localhost:8010/Basket';
+   // private baseUrl = 'http://localhost:8010/Basket';
+      private baseUrl = 'http://48.195.184.227:8010/Basket';
 
     checkout(payload: CheckoutPayload): Observable<any> {
         const token = localStorage.getItem('token');

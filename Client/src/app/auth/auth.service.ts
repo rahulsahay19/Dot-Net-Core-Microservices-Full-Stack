@@ -9,7 +9,8 @@ import { JwtPayload } from "./models/JwtPayload";
 @Injectable({providedIn:'root'})
 export class AuthService {
     private http = inject(HttpClient);
-    private baseUrl = 'http://localhost:8010/identity/api/auth';
+    //private baseUrl = 'http://localhost:8010/identity/api/auth';
+    private baseUrl = 'http://48.195.184.227:8010/identity/api/auth';
 
     //store token in a signal 
     userToken = signal<string | null>(localStorage.getItem('token'));

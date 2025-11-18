@@ -6,7 +6,8 @@ import { Observable } from "rxjs";
 @Injectable({providedIn: 'root'})
 export class BasketService {
     private http = inject(HttpClient);
-    baseUrl = 'http://localhost:8010/Basket';
+   // baseUrl = 'http://localhost:8010/Basket';
+      baseUrl = 'http://48.195.184.227:8010/Basket';
 
     //initialize from local storage
 
