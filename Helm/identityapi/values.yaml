@@ -18,6 +18,9 @@ secret:
   connectionKey: identityConnectionString
   jwtKey: jwtKey
 
+# NEW + FIXED — correct SQL Server for Identity
+identityConnectionString: "Server=sqlserver-identity.ecommerce.svc.cluster.local,1433;Database=IdentityDb;User Id=sa;Password=IdentityStrongPassword123!;TrustServerCertificate=True;"
+
 jwt:
   issuer: "ecommerce.identity"
   audience: "ecommerce.clients"

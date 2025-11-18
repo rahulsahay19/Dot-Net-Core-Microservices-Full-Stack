@@ -32,7 +32,7 @@ spec:
               value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
 
             # SQL Server identity connection
-            - name: ConnectionStrings__IdentityConnectionString
+            - name: ConnectionStrings__IdentityConnection
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}

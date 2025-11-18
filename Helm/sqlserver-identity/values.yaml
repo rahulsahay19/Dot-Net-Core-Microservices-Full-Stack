@@ -1,0 +1,14 @@
+image:
+  repository: mcr.microsoft.com/mssql/server
+  tag: "2019-latest"
+  pullPolicy: IfNotPresent
+
+saPassword: "IdentityStrongPassword123!"
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: ""
+
+service:
+  port: 1433
