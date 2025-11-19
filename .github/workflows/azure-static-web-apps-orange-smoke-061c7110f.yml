@@ -17,10 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # -------------------------------------------
-      # FIX: Angular 20 Version requires Node >= 20.19
-      # --------------------------------------------
-      - name: Setup Node
+      - name: Setup Node (Angular 20 requirement)
         uses: actions/setup-node@v4
         with:
           node-version: 20.19.0
@@ -34,7 +31,7 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ORANGE_SMOKE_061C7110F }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "Client"
@@ -48,4 +45,4 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           action: "close"
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ORANGE_SMOKE_061C7110F }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
