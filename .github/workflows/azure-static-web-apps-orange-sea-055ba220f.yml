@@ -38,8 +38,11 @@ jobs:
           action: "upload"
           app_location: "Client"
           output_location: "dist/Client/browser"
-          api_location: ""          # No API
+
+          # Force disable API detection
+          api_location: "no-api"
           skip_api_build: true
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
