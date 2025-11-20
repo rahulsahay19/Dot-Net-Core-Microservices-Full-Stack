@@ -55,7 +55,7 @@ Angular Frontend provides seamless end-to-end shopping experience.
 
 🛠 Tech Stack
 
-Backend: .NET 8, ASP.NET Core WebAPI, gRPC
+Backend: .NET 9, ASP.NET Core WebAPI, gRPC
 
 Database: SQL Server, PostgreSQL, Redis
 
@@ -68,6 +68,39 @@ Containerization: Docker, Docker Compose
 Frontend: Angular 20 (Phase 2)
 
 Cloud Ready: Kubernetes, Azure CI/CD, Service Mesh (Phase 3)
+
+
+📚 Course Structure
+🔹 Phase 1: Backend Microservices Development
+
+Catalog, Basket, Discount, Ordering, Payment, Identity
+
+CQRS, Outbox, Saga, RabbitMQ messaging
+
+🔹 Phase 2: Frontend Development
+
+Angular 20, API Gateway, Secure Integration
+
+🔹 Phase 3: Infra & Cloud-Native Journey
+
+Docker & Kubernetes
+
+Azure Deployment & CI/CD pipelines
+
+Observability with Prometheus, Grafana
+
+Service Mesh (Istio/Linkerd)
+
+🎯 Why Take This Course?
+
+✅ 31+ Hours of Hands-On Content
+✅ Build a Real-World E-Commerce Platform
+✅ Master Advanced Patterns: Saga + Outbox
+✅ Enterprise-Grade Event-Driven Design
+✅ Polyglot Persistence in Action
+✅ Cloud Native Ready
+✅ Amazon like UI using Angular 20 
+
 
 ## Code Structure:- 
 ![image](https://github.com/user-attachments/assets/9914fe05-aadf-42fb-8ab3-3b39e7f30433)
@@ -128,35 +161,350 @@ docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -e "
 docker-compose up -d
 ```
 
-📚 Course Structure
-🔹 Phase 1: Backend Microservices Development
+🚀 AKS Deployment Steps
 
-Catalog, Basket, Discount, Ordering, Payment, Identity
+Step 2 — Create the AKS Cluster
 
-CQRS, Outbox, Saga, RabbitMQ messaging
+Use the following command to create an Azure Kubernetes Service (AKS) cluster:
 
-🔹 Phase 2: Frontend Development
+```bash
+az aks create \
+  --resource-group rg-ecommerce \
+  --name aks-ecommerce \
+  --node-count 1 \
+  --enable-addons monitoring \
+  --generate-ssh-keys
+```
 
-Angular 20, API Gateway, Secure Integration
+Step 3 — Connect ACR to AKS
 
-🔹 Phase 3: Infra & Cloud-Native Journey
+Attach your Azure Container Registry (ACR) so AKS can pull images:
 
-Docker & Kubernetes
+```bash
+az aks update \
+  --name aks-ecommerce \
+  --resource-group rg-ecommerce \
+  --attach-acr ecomacrnet9
+```
 
-Azure Deployment & CI/CD pipelines
+Step 4 — Connect to the AKS Cluster
 
-Observability with Prometheus, Grafana
+Get kubeconfig credentials and connect:
 
-Service Mesh (Istio/Linkerd)
+```bash
+az aks get-credentials \
+  --resource-group rg-ecommerce \
+  --name aks-ecommerce
+```
 
-🎯 Why Take This Course?
+Verify your connection:
 
-✅ 31+ Hours of Hands-On Content
-✅ Build a Real-World E-Commerce Platform
-✅ Master Advanced Patterns: Saga + Outbox
-✅ Enterprise-Grade Event-Driven Design
-✅ Polyglot Persistence in Action
-✅ Cloud Native Ready
-✅ Amazon like UI using Angular 20 
+```bash
+kubectl get nodes
+```
+
+Step 5 — (Optional) Install Kubernetes Dashboard
+
+You can open the AKS dashboard using:
+
+```bash
+az aks browse \
+  --resource-group rg-ecommerce \
+  --name aks-ecommerce
+```
+
+🚀 Deploying Microservices to AKS — Step-by-Step Overview
+Step 1 — Create a Namespace for Isolation
+
+Create a dedicated namespace for all microservices:
+
+```bash
+kubectl create namespace ecommerce
+```
+
+Step 2 — Install Key Vault CSI Driver
+Enable the Azure Key Vault Secrets Provider addon in your AKS cluster:
+
+```bash
+az aks enable-addons \
+  --addons azure-keyvault-secrets-provider \
+  --name aks-ecommerce \
+  --resource-group rg-ecommerce
+```
+
+Step 3 — Assign Key Vault Access to AKS Managed Identity
+Get the user-assigned managed identity of the AKS kubelet.
+You will need this ClientId to assign Key Vault access policies:
+
+```bash
+az aks show \
+  --name aks-ecommerce \
+  --resource-group rg-ecommerce \
+  --query identityProfile.kubeletidentity.clientId \
+  -o tsv
+```
+
+Once retrieved, assign Key Vault Secrets Officer or Get/List permissions:
+
+```bash
+az keyvault set-policy \
+  --name ecom-kv-net9 \
+  --secret-permissions get list \
+  --spn <KUBELET_CLIENT_ID>
+```
+
+Step 4 — Create a Helm Chart for the Catalog API
+Scaffold a Helm chart for deploying the Catalog API:
+
+```bash
+helm create catalogapi
+```
+
+This will generate the folder structure:
+
+```pgsql
+catalogapi/
+ ├── charts/
+ ├── templates/
+ ├── values.yaml
+ ├── Chart.yaml
+ └── .helmignore
+```
+
+📦 Deploying Elasticsearch, Kibana & Catalog API via Helm on AKS
+
+🔹 Step 1 — Add Elastic Helm Repo
+
+```bash
+helm repo add elastic https://helm.elastic.co
+helm repo update
+```
+Confirm:
+
+```bash
+helm search repo elastic
+```
+
+🔹 Step 2 — Install Elasticsearch on AKS
+
+```bash
+helm install elasticsearch elastic/elasticsearch \
+  -n ecommerce \
+  --set replicas=1 \
+  --set minimumMasterNodes=1 \
+  --set resources.requests.cpu=200m \
+  --set resources.requests.memory=512Mi \
+  --set resources.limits.memory=1Gi \
+  --set volumeClaimTemplate.resources.requests.storage=2Gi
+```
+
+🔹 Step 3 — Install Kibana on AKS
+
+```bash
+helm install kibana elastic/kibana \
+  -n ecommerce \
+  --set resources.requests.cpu=200m \
+  --set resources.requests.memory=256Mi \
+  --set resources.limits.memory=512Mi
+```
+
+🔹 Step 4 — Verify Kibana Deployment
+Check Kibana pod:
+
+```bash
+kubectl get pods -n ecommerce -l app=kibana
+```
+
+Port-forward to access UI locally:
+
+```bash
+kubectl port-forward pod/kibana-kibana-b8c8878c-dg4f7 5601:5601 -n ecommerce
+```
+
+Open in browser:
+```bash
+http://localhost:5601
+```
+
+Username: elastic
+
+🔹 Step 5 — Fetch Elasticsearch Password (PowerShell)
+
+```bash 
+$secret = kubectl get secret elasticsearch-master-credentials -n ecommerce -o jsonpath="{.data.password}"
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret))
+```
+
+🔹 Step 6 — Store Elasticsearch Password in Azure Key Vault
+
+```bash
+az keyvault secret set \
+  --vault-name ecom-kv-net9 \
+  --name "ElasticPassword" \
+  --value "tVVWsXfHNVxFXAwB"
+```
+
+🔹 Step 7 — Grant AKS Access to Key Vault
+Get AKS kubelet managed identity:
+
+```bash
+az aks show \
+  --name aks-ecommerce \
+  --resource-group rg-ecommerce \
+  --query identityProfile.kubeletidentity.clientId \
+  -o tsv
+```
+
+Assign Key Vault access:
+
+```bash
+az role assignment create \
+  --assignee c8d1b9d4-5c68-4859-a545-947b4deafe3b \
+  --role "Key Vault Secrets User" \
+  --scope $(az keyvault show --name ecom-kv-net9 --query id -o tsv)
+```
+
+Verify:
+
+```bash
+az role assignment list \
+  --assignee c8d1b9d4-5c68-4859-a545-947b4deafe3b \
+  --scope $(az keyvault show --name ecom-kv-net9 --query id -o tsv) \
+  -o table
+```
+
+📦 Deploying the Catalog API via Helm
+
+Step 8 — Create Helm Chart
+
+```bash
+cd helm
+helm create catalogapi
+```
+Step 9 — Install the Catalog API
+
+```bash
+Step 9 — Install the Catalog API
+```
+Verify pod is running:
+
+```bash
+kubectl get pods -n ecommerce
+```
+
+Step 10 — Command to Show AKS Client ID (Reminder)
+
+```bash
+az aks show \
+  --name aks-ecommerce \
+  --resource-group rg-ecommerce \
+  --query identityProfile.kubeletidentity.clientId \
+  -o tsv
+```
+
+✔️ Final Deployment
+
+```bash
+helm install catalogapi ./Helm/catalogapi -n ecommerce
+```
+
+Likewise follow the same for other services:
+
+🚀 Deploying Redis + Identity DB on AKS (Helm + SQL + EF Migration)
+
+🔹 Step 1 — Add Bitnami Helm Repo
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+```
+
+🔹 Step 2 — Install Redis on AKS
+
+```bash
+helm install redis bitnami/redis \
+  --namespace ecommerce \
+  --create-namespace
+```
+
+🔹 Step 3 — Get Redis Password
+
+```bash
+kubectl get secret --namespace ecommerce redis -o jsonpath="{.data.redis-password}" | base64 --decode
+```
+Example output:
+
+```bash
+2ObyY5ZCd1
+```
+
+🔹 Step 4 — Get Redis Service Details
+
+```bash
+kubectl get svc -n ecommerce
+```
+
+Cluster-internal connection string:
+
+```bash
+redis-master.ecommerce.svc.cluster.local:6379,password=2ObyY5ZCd1
+```
+
+🗄️ Creating Identity SQL DB on AKS
+
+🔹 Step 5 — Connect to SQL Server Pod
+
+```bash
+kubectl exec -it sqlserver-7dd6499786-gp44q -n ecommerce -- bash
+```
+
+Inside container:
+
+```bash
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrongPassword123!"
+```
+
+🔹 Step 6 — Create Helm Charts for SQL Server + Identity API
+
+```bash
+helm create sqlserver-identity
+helm create identityapi
+```
+
+These generate Helm folders:
+
+```bash
+sqlserver-identity/
+identityapi/
+```
+
+🔹 Step 7 — Run EF Core Migrations After Pods Are Created
+Option A — Using kubectl ephemeral SQL tools pod
+
+```bash
+kubectl run mssqltools3 --rm -it \
+  --image=mcr.microsoft.com/mssql-tools \
+  --restart=Never \
+  -n ecommerce -- \
+  sh -c "echo 'SELECT @@version; GO' | /opt/mssql-tools/bin/sqlcmd -S sqlserver-identity.ecommerce.svc.cluster.local -U sa -P 'IdentityStrongPassword123!'"
+```
+
+Option B — Best & Easiest Method (Port-Forward + Local EF Migration)
+
+Forward SQL Server to your machine:
+
+```bash
+kubectl port-forward -n ecommerce deploy/sqlserver-identity 15433:1433
+```
+
+Run EF migrations locally:
+
+```bash
+dotnet ef database update --connection \
+"Server=localhost,15433;Database=IdentityDb;User ID=sa;Password=IdentityStrongPassword123!;TrustServerCertificate=True;"
+```
+
+For Manual SQL creation, refer identity.sql in solution
+
 
 🔗 [Follow me on LinkedIn](https://www.linkedin.com/in/rahulsahay19/)
