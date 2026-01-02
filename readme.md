@@ -9,7 +9,7 @@ We go **beyond CRUD APIs** — this course teaches you how to build **enterprise
 
 ## 🏗 Architecture Overview  
 
-![Image](https://github.com/user-attachments/assets/3ae78952-e8cf-44ab-bdc0-1d45fe577657)
+![Image](./Architecture%20Diagrams/Microservices-arch-1x.png)
 
 ## 📡 Application Flow
 
